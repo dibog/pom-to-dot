@@ -20,7 +20,7 @@ class PomToDot : CliktCommand(name="pom-to-dot") {
 
     override fun run() {
         if(internalOnly && internalDep==null) {
-            throw MissingParameter("If you specify --internal-only, you must also set --internalDep")
+            throw MissingParameter("If you specify --internal-only, you must also set --internal-dep")
         }
 
         val dot= DotGenerator().generateDot(

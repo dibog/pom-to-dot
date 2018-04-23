@@ -1,12 +1,12 @@
 package io.github.dibog.pomdot
 
 import org.jboss.shrinkwrap.resolver.api.maven.Maven
+import org.jboss.shrinkwrap.resolver.api.maven.MavenArtifactInfo
 import org.jboss.shrinkwrap.resolver.api.maven.MavenResolvedArtifact
 import org.jboss.shrinkwrap.resolver.api.maven.coordinate.MavenCoordinate
+import org.jboss.shrinkwrap.resolver.api.maven.coordinate.MavenCoordinates
 import java.io.File
 import java.net.URL
-
-internal const val nl = "\n"
 
 class MavenArtifactResolver private constructor(private val repoUrl : URL) {
     companion object {
@@ -16,7 +16,7 @@ class MavenArtifactResolver private constructor(private val repoUrl : URL) {
         }
     }
 
-    fun fetchArtifacts(coordinate: MavenCoordinate, transitivity: Boolean): List<MavenResolvedArtifact> {
+    private fun fetchArtifacts(coordinate: MavenCoordinate, transitivity: Boolean): List<MavenResolvedArtifact> {
         val fragment1 = Maven.configureResolver()
                 .withRemoteRepo("id", repoUrl, "default")
                 .resolve(coordinate.toCanonicalForm())
@@ -26,77 +26,40 @@ class MavenArtifactResolver private constructor(private val repoUrl : URL) {
         else
             fragment1.withoutTransitivity()
 
-        val result = fragment2.`as`(MavenResolvedArtifact::class.java)?.toList() ?: listOf()
-        return result
+        return fragment2.`as`(MavenResolvedArtifact::class.java)?.toList() ?: listOf()
+    }
+
+    private fun resolveArtifact(coordinate: MavenCoordinate): MavenResolvedArtifact {
+        return fetchArtifacts(coordinate, false).first { it.coordinate==coordinate }
+    }
+
+    fun buildGraph(coordinate: MavenCoordinate): Dependency {
+        val visited = mutableMapOf<MavenCoordinate, Dependency>()
+
+        fun buildGraphRec(artifact: MavenArtifactInfo): Dependency {
+            if(visited.containsKey(artifact.coordinate)) return visited[artifact.coordinate]!!
+
+            val dep = Dependency(artifact)
+            visited[artifact.coordinate] = dep
+            artifact.dependencies.map { resolveArtifact( it.coordinate ) }.forEach {
+                dep.addDependency(buildGraphRec(it))
+            }
+            return dep
+        }
+
+        val parent = resolveArtifact(coordinate)
+        return buildGraphRec(parent)
     }
 }
 
-class DotGenerator(private val resolver: MavenArtifactResolver = MavenArtifactResolver.usingLocalRepo()) {
-    private fun MavenCoordinate.toDotNode(re: Regex?) : String {
-        val sb = StringBuilder()
+fun main(args: Array<String>) {
+    val parent = MavenArtifactResolver
+            .usingLocalRepo()
+            .buildGraph(
+                    MavenCoordinates.createCoordinate("io.github.dibog:pom-to-dot:1.0.0")
+            )
 
-        if(re==null || re.matches(groupId)) {
-            sb.append(""""${toCanonicalForm()}" [shape=record, label="{ $groupId | $artifactId | $version }"]""")
-        }
-        else {
-            sb.append(""""${toCanonicalForm()}" [shape=record, fillcolor=grey, style=filled, label="{  $groupId | $artifactId | $version }"]""")
-        }
-
-        return sb.toString()
-    }
-
-    private fun toDot(artifacts: List<MavenResolvedArtifact>, internalDep: Regex? = null, internalOnly: Boolean, excludeDep: Regex? = null, plantUml: Boolean): String {
-        fun List<MavenResolvedArtifact>.toDot(sb: StringBuilder, internalDep: Regex?) {
-            val list = if(internalOnly) {
-                filter { internalDep!!.matches(it.coordinate.groupId) }
-            }
-            else {
-                toList()
-            }
-
-            val excludedDepList = if(excludeDep==null) {
-                list
-            }
-            else {
-                filter { !excludeDep.matches(it.coordinate.groupId) }
-            }
-
-            excludedDepList.forEach { sb.append("""  ${it.coordinate.toDotNode(internalDep)}$nl""") }
-
-            excludedDepList.forEach { artifact ->
-                val coordinate = artifact.coordinate
-                val resolvedArtifact = resolver.fetchArtifacts(coordinate, false).firstOrNull { it.coordinate==coordinate }
-
-                val dependencies = if(internalOnly) {
-                    resolvedArtifact?.dependencies?.filter { internalDep!!.matches( it.coordinate.groupId ) }
-                }
-                else {
-                    resolvedArtifact?.dependencies?.toList()
-                }
-                val excludedExtDep = if(excludeDep==null)
-                    dependencies
-                else {
-                    dependencies?.filter { !excludeDep.matches( it.coordinate.groupId ) }
-                }
-
-                excludedExtDep?.forEach { dependency ->
-                    sb.append("""  "${coordinate.toCanonicalForm()}" -> "${dependency.coordinate.toCanonicalForm()}"$nl""")
-                }
-            }
-        }
-
-        val sb = StringBuilder()
-        if(plantUml) sb.append("@startdot$nl")
-        sb.append("digraph pom {$nl")
-        artifacts.toDot(sb, internalDep)
-        sb.append("}$nl")
-        if(plantUml) sb.append("@enddot$nl")
-
-        return sb.toString()
-    }
-
-    fun generateDot(coord: MavenCoordinate, internalDep: Regex?, internalOnly: Boolean, excludeDep: Regex?, plantUml: Boolean): String {
-        val result = resolver.fetchArtifacts(coord, true)
-        return toDot(result, internalDep, internalOnly, excludeDep, plantUml)
-    }
+//    val regex = "org.jboss.shrinkwrap.resolver".toRegex()
+    println("\nFull tree")
+    println( DotGenerator.toDot(parent) )
 }

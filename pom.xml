@@ -5,7 +5,7 @@
 
     <groupId>io.github.dibog</groupId>
     <artifactId>pom-to-dot</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
 
     <name>POM to DOT converter</name>
     <description>Displays the hierarchical structure of POM as DOT files.</description>
@@ -157,9 +157,7 @@
                         <configuration>
                             <archive>
                                 <manifest>
-                                    <mainClass>
-                                        io.github.dibog.pomdot.PomToDotKt
-                                    </mainClass>
+                                    <mainClass>io.github.dibog.pomdot.PomToDotKt</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>
@@ -229,8 +227,8 @@
                     <execution>
                         <phase>prepare-package</phase>
                         <goals>
-                            <goal>dokka</goal>
-                            <goal>javadoc</goal>
+                            <!--<goal>dokka</goal>-->
+                            <!--<goal>javadoc</goal>-->
                             <goal>javadocJar</goal>
                         </goals>
                     </execution>

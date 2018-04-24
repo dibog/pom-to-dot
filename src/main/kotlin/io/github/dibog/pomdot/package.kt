@@ -1,7 +1,11 @@
 package io.github.dibog.pomdot
 
+import com.github.ajalt.clikt.parameters.options.NullableOption
+import com.github.ajalt.clikt.parameters.options.RawOption
+import com.github.ajalt.clikt.parameters.options.convert
 import org.jboss.shrinkwrap.resolver.api.maven.coordinate.MavenCoordinate
 
+internal enum class OutputMode { DOT, PLANT_UML }
 
 internal const val nl = "\n"
 
@@ -20,3 +24,13 @@ internal fun MavenCoordinate.toDotNode(re: Regex?) : String {
     return sb.toString()
 }
 
+
+internal fun RawOption.mavenCoordinate() : NullableOption<MavenCoordinate, MavenCoordinate> = convert("MAVEN_COORD") {
+    org.jboss.shrinkwrap.resolver.api.maven.coordinate.MavenCoordinates.createCoordinate(it)
+}
+
+internal fun RawOption.outputMode() : NullableOption<OutputMode,OutputMode> = convert("MODE") {
+    io.github.dibog.pomdot.OutputMode.valueOf(it)
+}
+
+internal fun RawOption.regex() : NullableOption<Regex, Regex> = convert("RE") { it.toRegex() }

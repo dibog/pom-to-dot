@@ -1,0 +1,23 @@
+digraph pom {
+  "io.github.dibog:pom-to-dot:jar:1.0.0" [shape=record, label="{ io.github.dibog | pom-to-dot | 1.0.0 }" ]
+  "org.slf4j:slf4j-api:jar:1.7.25" [shape=record, label="{ org.slf4j | slf4j-api | 1.7.25 }" ]
+  "org.slf4j:jul-to-slf4j:jar:1.7.25" [shape=record, label="{ org.slf4j | jul-to-slf4j | 1.7.25 }" ]
+  "org.slf4j:slf4j-nop:jar:1.7.25" [shape=record, label="{ org.slf4j | slf4j-nop | 1.7.25 }" ]
+  "com.github.ajalt:clikt:jar:1.1.0" [shape=record, label="{ com.github.ajalt | clikt | 1.1.0 }" ]
+  "org.jetbrains.kotlin:kotlin-stdlib:jar:1.2.31" [shape=record, label="{ org.jetbrains.kotlin | kotlin-stdlib | 1.2.31 }" ]
+  "org.jetbrains:annotations:jar:13.0" [shape=record, label="{ org.jetbrains | annotations | 13.0 }" ]
+  "org.jetbrains.kotlin:kotlin-stdlib-jdk8:jar:1.2.40" [shape=record, label="{ org.jetbrains.kotlin | kotlin-stdlib-jdk8 | 1.2.40 }" ]
+  "org.jetbrains.kotlin:kotlin-stdlib-jdk7:jar:1.2.40" [shape=record, label="{ org.jetbrains.kotlin | kotlin-stdlib-jdk7 | 1.2.40 }" ]
+  "io.github.dibog:pom-to-dot:jar:1.0.0" -> "org.slf4j:slf4j-api:jar:1.7.25"
+  "io.github.dibog:pom-to-dot:jar:1.0.0" -> "org.slf4j:jul-to-slf4j:jar:1.7.25"
+  "io.github.dibog:pom-to-dot:jar:1.0.0" -> "org.slf4j:slf4j-nop:jar:1.7.25"
+  "io.github.dibog:pom-to-dot:jar:1.0.0" -> "com.github.ajalt:clikt:jar:1.1.0"
+  "io.github.dibog:pom-to-dot:jar:1.0.0" -> "org.jetbrains.kotlin:kotlin-stdlib-jdk8:jar:1.2.40"
+  "org.slf4j:jul-to-slf4j:jar:1.7.25" -> "org.slf4j:slf4j-api:jar:1.7.25"
+  "org.slf4j:slf4j-nop:jar:1.7.25" -> "org.slf4j:slf4j-api:jar:1.7.25"
+  "com.github.ajalt:clikt:jar:1.1.0" -> "org.jetbrains.kotlin:kotlin-stdlib:jar:1.2.31"
+  "org.jetbrains.kotlin:kotlin-stdlib:jar:1.2.31" -> "org.jetbrains:annotations:jar:13.0"
+  "org.jetbrains.kotlin:kotlin-stdlib-jdk8:jar:1.2.40" -> "org.jetbrains.kotlin:kotlin-stdlib:jar:1.2.31"
+  "org.jetbrains.kotlin:kotlin-stdlib-jdk8:jar:1.2.40" -> "org.jetbrains.kotlin:kotlin-stdlib-jdk7:jar:1.2.40"
+  "org.jetbrains.kotlin:kotlin-stdlib-jdk7:jar:1.2.40" -> "org.jetbrains.kotlin:kotlin-stdlib:jar:1.2.31"
+}

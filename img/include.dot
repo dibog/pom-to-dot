@@ -1,0 +1,3 @@
+digraph pom {
+  "io.github.dibog:pom-to-dot:jar:1.0.0" [shape=record, label="{ io.github.dibog | pom-to-dot | 1.0.0 }" ]
+}

@@ -4,7 +4,6 @@ import org.jboss.shrinkwrap.resolver.api.maven.Maven
 import org.jboss.shrinkwrap.resolver.api.maven.MavenArtifactInfo
 import org.jboss.shrinkwrap.resolver.api.maven.MavenResolvedArtifact
 import org.jboss.shrinkwrap.resolver.api.maven.coordinate.MavenCoordinate
-import org.jboss.shrinkwrap.resolver.api.maven.coordinate.MavenCoordinates
 import java.io.File
 import java.net.URL
 
@@ -50,16 +49,4 @@ class MavenArtifactResolver private constructor(private val repoUrl : URL) {
         val parent = resolveArtifact(coordinate)
         return buildGraphRec(parent)
     }
-}
-
-fun main(args: Array<String>) {
-    val parent = MavenArtifactResolver
-            .usingLocalRepo()
-            .buildGraph(
-                    MavenCoordinates.createCoordinate("io.github.dibog:pom-to-dot:1.0.0")
-            )
-
-//    val regex = "org.jboss.shrinkwrap.resolver".toRegex()
-    println("\nFull tree")
-    println( DotGenerator.toDot(parent) )
 }

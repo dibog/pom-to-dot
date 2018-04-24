@@ -5,8 +5,9 @@ import org.slf4j.bridge.SLF4JBridgeHandler
 fun main(args: Array<String>) {
     val cmdArgs = arrayOf(
             "--coord", "io.github.dibog:pom-to-dot:1.0.0",
-            "--output-mode", OutputMode.PLANT_UML.name,
-            "--out-file", "test.plantuml",
+            "--output-mode", OutputMode.SVG.name,
+//            "--executable", "abc",
+            "--out-file", "test.svg",
             "--colors", "org.slf4j", "yellow",
             "--colors", "org.jetbrains.kotlin", "green",
             "--colors", "com.github.ajalt", "red",

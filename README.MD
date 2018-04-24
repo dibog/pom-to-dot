@@ -66,37 +66,39 @@ differently then the other dependencies.
 matched with the groupId. Every such matched dependency won't appear in the
 DOT file.
 
+* `--colors REGEX COLOR ...` every dependecy matching to the REGEX will be colored with COLOR. The parameter can be specified multiple times.
+
+* `--executable` lets you specify the Graphviz/dot binary
+
+* `--output-mode` can be either DOT, PLANT_UML, PNG, GIF, JPG, BMP, PS, EPS or SVG.
+
 * `--out-file` if set the output will be written in that file.
 
-* `--output-mode` can be either DOT or PLANTUML .
 
-* `--colors REGEX COLOR ...` every dependecy matching to the REGEX will be colored with COLOR. The parameter can be specified multiple times.
 
 ## Examples
 
 ### Displaying the full dependencies of this project
 
-    java -jar pom-to-dot.jar --coord io.github.dibog:pom-to-dot:1.0.0 --out-file img/full.dot
-    dot -Tpng img\full.dot -O
+    java -jar pom-to-dot.jar --coord io.github.dibog:pom-to-dot:1.0.0 --output-mode PNG --out-file img/full.png
    
-![full.dot](img/full.dot.png)
+![full.dot](img/full.png)
 
 ### Displaying only dependencies of group 'io.github.dibog' and 'org.jetbrains.kotlin'
 
-    java -jar pom-to-dot.jar --coord io.github.dibog:pom-to-dot:1.0.0 --include-dep "(io.github.dibog|org.jetbrains.kotlin)" --out-file img/include.dot
-    dot -Tpng img\include.dot -O
+    java -jar pom-to-dot.jar --coord io.github.dibog:pom-to-dot:1.0.0 --include-dep "(io.github.dibog|org.jetbrains.kotlin)" --output-mode PNG --out-file img/include.png
 
-![include.dot](img/include.dot.png)
+![include.dot](img/include.png)
 
 ### Display the dependencies without 'org.apache.maven' and 'org.jboss.shrinkwrap.resolver'
 
-    java -jar pom-to-dot.jar --coord io.github.dibog:pom-to-dot:1.0.0 --exclude-dep "(org.apache.maven|org.jboss.shrinkwrap.resolver)" --out-file img/exclude.dot
-    dot -Tpng img\exclude.dot -O
+    java -jar pom-to-dot.jar --coord io.github.dibog:pom-to-dot:1.0.0 --exclude-dep "(org.apache.maven|org.jboss.shrinkwrap.resolver)" --output-mode PNG --out-file img/exclude.png
 
-![exclude.dot](img/exclude.dot.png)
+![exclude.dot](img/exclude.png)
 
 ### Display as above but with colored dependencies
-    java -jar pom-to-dot.jar --coord io.github.dibog:pom-to-dot:1.0.0 --exclude-dep "(org.apache.maven|org.jboss.shrinkwrap.resolver)" --colors "org.slf4j" yellow --colors "org.jetbrains.kotlin" green --out-file img/colored.dot
-    dot -Tpng img\colored.dot -O
 
-![colored.dot](img/colored.dot.png)
+   java -jar pom-to-dot.jar --coord io.github.dibog:pom-to-dot:1.0.0 --exclude-dep "(org.apache.maven|org.jboss.shrinkwrap.resolver)" --colors "org.slf4j" yellow --colors "org.jetbrains.kotlin" green --output-mode PNG --out-file img/colored.png
+
+![colored.dot](img/colored.png)
+

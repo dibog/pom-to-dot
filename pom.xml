@@ -5,7 +5,7 @@
 
     <groupId>io.github.dibog</groupId>
     <artifactId>pom-to-dot</artifactId>
-    <version>1.1.1-SNAPSHOT</version>
+    <version>1.2.0-SNAPSHOT</version>
 
     <name>POM to DOT converter</name>
     <description>Displays the hierarchical structure of POM as DOT files.</description>

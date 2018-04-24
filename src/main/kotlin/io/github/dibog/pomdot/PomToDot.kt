@@ -13,9 +13,10 @@ class PomToDot : CliktCommand(name="pom-to-dot") {
     private val coordinates by option("--coord", help="Maven coordinates. Format: groupId:artifactId:version[:packaging][:classifier]").mavenCoordinate().required()
     private val includeDep by option(help="Regular Expression for only showing the selected ones").regex()
     private val excludeDep by option(help="Regular Expression for excluding the selected ones").regex()
+    private val colors by option(metavar="REGEX COLOR", help="Colors matching groupIds with the specified color.").transformValues(2) { it[0].toRegex() to it[1] }.multiple()
+    private val executable : String by option(help="path to Graphviz/dot executable").default("dot")
     private val outFile by option(help="File into which the output should be written").file()
-    private val outputMode by option(help="Use DOT to create a .dot file, or PLANT_UML to be used with PlantUML. Defaults to 'DOT'.").outputMode().default(OutputMode.DOT)
-    private val colors by option(metavar = "REGEX COLOR", help="Colors matching groupIds with the specified color.").transformValues(2) { it[0].toRegex() to it[1] }.multiple()
+    private val outputMode by option(help="available output modes: DOT, PLANT_UML, PNG, GIF, JPG, BMP, PS, EPS or SVG. Defaults to 'DOT'.").outputMode().default(OutputMode.DOT)
 
     override fun run() {
         if(includeDep!=null && excludeDep!=null) {
@@ -55,6 +56,17 @@ class PomToDot : CliktCommand(name="pom-to-dot") {
                 else {
                     OutputStreamWriter(FileOutputStream(outFile), Charsets.UTF_8).use { it.append(dot) }
                 }
+            }
+
+            OutputMode.PNG,
+            OutputMode.GIF,
+            OutputMode.JPG,
+            OutputMode.BMP,
+            OutputMode.EPS,
+            OutputMode.PS,
+            OutputMode.SVG -> {
+                val out = if(outFile==null) { System.out } else { FileOutputStream(outFile) }
+                DotCompiler(executable).compile(dot, out, outputMode.fmt)
             }
         }
     }

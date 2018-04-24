@@ -1,3 +1,10 @@
 digraph pom {
   "io.github.dibog:pom-to-dot:jar:1.0.0" [shape=record, label="{ io.github.dibog | pom-to-dot | 1.0.0 }" ]
+  "org.jetbrains.kotlin:kotlin-stdlib-jdk8:jar:1.2.40" [shape=record, label="{ org.jetbrains.kotlin | kotlin-stdlib-jdk8 | 1.2.40 }" ]
+  "org.jetbrains.kotlin:kotlin-stdlib:jar:1.2.31" [shape=record, label="{ org.jetbrains.kotlin | kotlin-stdlib | 1.2.31 }" ]
+  "org.jetbrains.kotlin:kotlin-stdlib-jdk7:jar:1.2.40" [shape=record, label="{ org.jetbrains.kotlin | kotlin-stdlib-jdk7 | 1.2.40 }" ]
+  "io.github.dibog:pom-to-dot:jar:1.0.0" -> "org.jetbrains.kotlin:kotlin-stdlib-jdk8:jar:1.2.40"
+  "org.jetbrains.kotlin:kotlin-stdlib-jdk8:jar:1.2.40" -> "org.jetbrains.kotlin:kotlin-stdlib:jar:1.2.31"
+  "org.jetbrains.kotlin:kotlin-stdlib-jdk8:jar:1.2.40" -> "org.jetbrains.kotlin:kotlin-stdlib-jdk7:jar:1.2.40"
+  "org.jetbrains.kotlin:kotlin-stdlib-jdk7:jar:1.2.40" -> "org.jetbrains.kotlin:kotlin-stdlib:jar:1.2.31"
 }

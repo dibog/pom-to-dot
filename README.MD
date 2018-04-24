@@ -81,9 +81,9 @@ DOT file.
    
 ![full.dot](img/full.dot.png)
 
-### Displaying only dependencies of group 'io.github.dibog'
+### Displaying only dependencies of group 'io.github.dibog' and 'org.jetbrains.kotlin'
 
-    java -jar pom-to-dot.jar --coord io.github.dibog:pom-to-dot:1.0.0 --include-dep io.github.dibog --out-file img/include.dot
+    java -jar pom-to-dot.jar --coord io.github.dibog:pom-to-dot:1.0.0 --include-dep "(io.github.dibog|org.jetbrains.kotlin)" --out-file img/include.dot
     dot -Tpng img\include.dot -O
 
 ![include.dot](img/include.dot.png)

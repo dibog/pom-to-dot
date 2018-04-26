@@ -1,0 +1,33 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+
+   <parent>
+		<groupId>io.github.dibog</groupId>
+		<artifactId>pom-to-dot</artifactId>
+		<version>1.2.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>pom-to-dot-demo</artifactId>
+
+    <build>
+		<plugins>
+            <plugin>
+                <groupId>io.github.dibog</groupId>
+                <artifactId>pom-to-dot-maven-plugin</artifactId>
+                <version>${project.version}</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <format>PNG</format>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

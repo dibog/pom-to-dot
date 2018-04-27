@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>io.github.dibog</groupId>
 		<artifactId>pom-to-dot</artifactId>
-		<version>1.3.0-SNAPSHOT</version>
+		<version>1.3.0</version>
 	</parent>
 	
 	<artifactId>pom-to-dot-generator</artifactId>

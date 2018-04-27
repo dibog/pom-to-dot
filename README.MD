@@ -22,10 +22,8 @@ There is also plugins to use PlantUML with some IDEs:
 
 ## Command line 
 
-After you have build the project with maven, you can rename `target/pom-to-dot-<VERSION>-jar-with-dependencies.jar`
+After you have build the project with maven, you can rename `generator/target/pom-to-dot-generator-<VERSION>-jar-with-dependencies.jar`
 into something shorter like `pom-to-dot.jar`:
-
-Usage: pom-to-dot [OPTIONS]
 
 Usage: pom-to-dot [OPTIONS]
 
@@ -38,7 +36,7 @@ Usage: pom-to-dot [OPTIONS]
       --output-mode MODE       Use DOT to create a .dot file, or PLANT_UML to be
                                used with PlantUML.
                                Defaults to 'DOT'.
-      --colors REGEX COLOR...  colors matchign groupIds with thes specified color.
+      --color REGEX COLOR...   colors matchign groupIds with thes specified color.
       -h, --help               Show this message and exit
 
 The shortest form to call this is like
@@ -66,7 +64,7 @@ differently then the other dependencies.
 matched with the groupId. Every such matched dependency won't appear in the
 DOT file.
 
-* `--colors REGEX COLOR ...` every dependecy matching to the REGEX will be colored with COLOR. The parameter can be specified multiple times.
+* `--color REGEX COLOR ...` every dependency matching to the REGEX will be colored with COLOR. The parameter can be specified multiple times.
 
 * `--executable` lets you specify the Graphviz/dot binary
 
@@ -75,8 +73,42 @@ DOT file.
 * `--out-file` if set the output will be written in that file.
 
 
+## Maven Plugin
+You can also automate the creating of the difference formats within your pom.xml.
 
-## Examples
+All you have to do is to add the following maven plugin to your build section:
+
+    <plugin>
+        <groupId>io.github.dibog</groupId>
+        <artifactId>pom-to-dot-maven-plugin</artifactId>
+        <version>${pom-to-dot.version}</version>
+        <executions>
+            <execution>
+                <phase>install</phase>
+                <goals>
+                    <goal>generate</goal>
+                </goals>
+                <configuration>
+                    <coord>groupId:artifactId:version</coord>
+                    <out-file>.</out-file>
+                    <format>PNG</format>
+                    <include-dep>REGEX</include-dep>
+                    <exclude-dep>REGEX</exclude-dep>
+                    <executable>/path/to/graphviz/dot</executable>
+                    <colors>
+                        <color>REGEX=color</color>
+                        <color>REGEX=color</color>
+                    </colors>
+                </configuration>
+            </execution>
+        </executions>
+    </plugin>
+    
+* if <coord> is missing the coordiantes of the current pom.xml is used
+ 
+Please refer to the Command line section for an explanation of the configuration parameters.
+
+## Examples for the Command line usage
 
 ### Displaying the full dependencies of this project
 
@@ -102,3 +134,6 @@ DOT file.
 
 ![colored.dot](img/colored.png)
 
+## Examples for the usage within a pom.xml 
+
+You can inspect this example [pom.xml](demo/pom.xml) about how to use or configure the plugin.

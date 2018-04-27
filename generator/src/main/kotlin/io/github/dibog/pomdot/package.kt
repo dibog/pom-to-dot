@@ -9,9 +9,9 @@ import org.jboss.shrinkwrap.resolver.api.maven.coordinate.MavenCoordinates.creat
 import java.io.InputStream
 import java.io.OutputStream
 
-internal enum class OutputMode(val fmt: String="n/a") {
-    DOT,
-    PLANT_UML,
+internal enum class OutputMode(val fmt: String) {
+    DOT("dot"),
+    PLANT_UML("plantuml"),
     PNG("png"),
     GIF("gif"),
     JPG("jpg"),

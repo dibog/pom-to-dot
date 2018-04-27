@@ -5,12 +5,13 @@
 		<groupId>io.github.dibog</groupId>
 		<artifactId>pom-to-dot</artifactId>
 		<version>1.2.1-SNAPSHOT</version>
-	</parent>
+   </parent>
 
-	<artifactId>pom-to-dot-demo</artifactId>
+    <artifactId>pom-to-dot-maven-plugin-demo</artifactId>
 
     <build>
 		<plugins>
+
             <plugin>
                 <groupId>io.github.dibog</groupId>
                 <artifactId>pom-to-dot-maven-plugin</artifactId>
@@ -22,12 +23,21 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <coord>${project.groupId}:pom-to-dot-generator:${project.version}</coord>
-                            <format>PNG</format>
+                            <format>png</format>
+                            <!--<outFile>target</outFile>-->
+                            <!--<includeDep>org.foo</includeDep>-->
+                            <!--<excludeDep>bar.foo</excludeDep>-->
+                            <!--<executable>c:/exec/dot</executable>-->
+                            <colors>
+                                <color>org.jetbrains=green</color>
+                                <color>org.jetbrains.kotlin=yellow</color>
+                            </colors>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+
+
         </plugins>
     </build>
 

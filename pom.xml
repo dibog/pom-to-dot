@@ -5,7 +5,7 @@
 
     <groupId>io.github.dibog</groupId>
     <artifactId>pom-to-dot</artifactId>
-    <version>1.3.0</version>
+    <version>1.3.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>POM to DOT converter</name>
@@ -273,7 +273,7 @@
         <connection>scm:git:git://github.com/dibog/pom-to-dot.git</connection>
         <developerConnection>scm:git:git@github.com:dibog/pom-to-dot.git</developerConnection>
         <url>https://github.com/dibog/pom-to-dot</url>
-        <tag>pom-to-dot-1.3.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <profiles>

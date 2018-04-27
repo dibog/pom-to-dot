@@ -40,7 +40,9 @@ class PomToDotMojo : AbstractMojo() {
     val outFile by lazy {
         val fmt = format.toLowerCase()
         val extension = if(fmt=="plant_uml") "plantuml" else fmt
-        File("target/${project.artifactId}.$extension")
+        File("${project.basedir}/target/${coord.artifactId()}.$extension").apply {
+            parentFile.mkdirs()
+        }
     }
 
     override fun execute() {
@@ -52,13 +54,17 @@ class PomToDotMojo : AbstractMojo() {
         }
 
         try {
-            val proc = ProcessBuilder().command(
+            val cmds = listOf(
                     "java",
                     "-jar", tmpFile.toFile().absolutePath,
                     "--coord", coord,
                     "--out-file", outFile.absolutePath,
-                    "--output-mode", format)
-                    .start()
+                    "--output-mode", format
+            )
+
+            log.info("Command line: $cmds")
+
+            val proc = ProcessBuilder().command(cmds).start()
 
             proc.inputStream.use {
                 BufferedReader(InputStreamReader(it, Charsets.UTF_8)).use {
@@ -80,5 +86,14 @@ class PomToDotMojo : AbstractMojo() {
             Files.delete(tmpFile)
         }
     }
+
     private fun MavenProject.toCanonicalForm() = "$groupId:$artifactId:$version"
+
+    private fun String.artifactId(): String  {
+        val first = indexOf(':')
+        if(first<0) throw IllegalStateException("Coordinate '$this' has no valid maven coordinate format")
+        val second = indexOf(':', first+1)
+        if(second<0) throw IllegalStateException("Coordinate '$this' has no valid maven coordinate format")
+        return substring(first+1, second)
+    }
 }
